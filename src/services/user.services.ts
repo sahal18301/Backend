@@ -10,17 +10,16 @@ export class UserService {
   getUsers() {
     return this.repo.getUsers();
   }
-  
-  getUserById(id: number) {
+
+  getUserById(id: string) {
     return this.repo.getUserById(id);
   }
 
-  updateUser(id: number, name: string, email: string) {
+  updateUser(id: string, name: string, email: string) {
     return this.repo.updateUser(id, name, email);
   }
 
-  async deleteUser(id: number) {
+  deleteUser(id: string) {
     return this.repo.deleteUser(id);
   }
 }
-

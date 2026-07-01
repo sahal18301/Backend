@@ -1,43 +1,21 @@
-import { DataTypes, Model, Optional } from "sequelize";
+import mongoose from "mongoose";
 
-import { sequelize } from "../config/db";
-
-interface UserAttributes {
-  id: number;
-  name: string;
-  email: string;
-}
-
-interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
-
-export class User
-  extends Model<UserAttributes, UserCreationAttributes>
-  implements UserAttributes
-{
-  public id!: number;
-  public name!: string;
-  public email!: string;
-}
-
-User.init(
+const UserSchema = new mongoose.Schema(
   {
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
     name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: String,
+      required: true,
     },
+
     email: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: String,
+      required: true,
       unique: true,
     },
   },
   {
-    sequelize,
-    tableName: "users",
+    timestamps: true,
   },
 );
+
+export const User = mongoose.model("User", UserSchema);

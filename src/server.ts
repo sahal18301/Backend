@@ -1,14 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 
-import { connectDB, sequelize } from "./config/db";
-
-import "./models";
+import { connectDB } from "./config/mongodb";
 
 import userRoutes from "./apis/user.api";
-
 import companyRoutes from "./apis/company.api";
-
 
 dotenv.config();
 
@@ -21,18 +17,11 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/api", userRoutes);
-
 app.use("/api", companyRoutes);
 
 const startServer = async () => {
   try {
     await connectDB();
-
-    await sequelize.sync({
-      alter: true,
-    });
-
-    console.log("✅ Models synchronized");
 
     app.listen(Number(process.env.PORT), "0.0.0.0", () => {
       console.log(`🚀 Server running on port ${process.env.PORT}`);

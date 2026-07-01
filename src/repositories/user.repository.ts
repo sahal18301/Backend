@@ -1,39 +1,35 @@
 import { User } from "../models";
-import { Transaction } from "sequelize";
 
 export class UserRepository {
-  async createUser(name: string, email: string, transaction?: Transaction) {
-    return User.create({ name, email }, { transaction });
+  async createUser(name: string, email: string) {
+    return User.create({
+      name,
+      email,
+    });
   }
 
   async getUsers() {
-    return User.findAll();
+    return User.find();
   }
 
-  async updateUser(id: number, name: string, email: string) {
-    await User.update(
-      { name, email },
+  async getUserById(id: string) {
+    return User.findById(id);
+  }
+
+  async updateUser(id: string, name: string, email: string) {
+    return User.findByIdAndUpdate(
+      id,
       {
-        where: { id },
+        name,
+        email,
+      },
+      {
+        new: true,
       },
     );
-
-    return User.findByPk(id);
   }
 
-  async getUserById(id: number) {
-    return User.findByPk(id);
-  }
-
-  async deleteUser(id: number) {
-    const user = await User.findByPk(id);
-
-    if (!user) {
-      return null;
-    }
-
-    await user.destroy();
-
-    return true;
+  async deleteUser(id: string) {
+    return User.findByIdAndDelete(id);
   }
 }
